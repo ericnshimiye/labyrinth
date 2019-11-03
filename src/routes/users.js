@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const httpStatus = require('http-status-codes');
+const jwt = require("jsonwebtoken");
 const validateSignUpInput = require("../validation/signup");
+const validateSignInInput = require("../validation/signin");
 const userModel = require("../dal/models/users");
 const teamModel = require("../dal/models/teams");
 
@@ -46,4 +48,39 @@ exports.signup = (req, res) => {
             }
         })
         .catch(err => console.log(err));
+};
+
+exports.signin = (req, res) => {
+    const { errors, isValid } = validateSignInInput(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    const { email, password } = req.body;
+
+    userModel.findOne({ email }).then(user => {
+        if (!user) {
+            errors.message = "Wrong email or password";
+            return res.status(404).json(errors);
+        }
+
+        bcrypt.compare(password, user.password).then(isMatch => {
+            if (isMatch) {
+                const { id, firstName, lastName, team } = user;
+                const payload = { id, firstName, lastName, team };
+                const secretOrPrivateKey = process.env.JWT_SECRET_OR_PRIVATE_KEY
+
+                jwt.sign(payload, secretOrPrivateKey, { expiresIn: '1d' }, (err, token) => {
+                    res.json({
+                        success: true,
+                        token: "Bearer " + token
+                    });
+                });
+            } else {
+                errors.message = "Wrong email or password";
+                return res.status(404).json(errors);
+            }
+        });
+    });
 };

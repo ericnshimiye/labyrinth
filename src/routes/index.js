@@ -13,4 +13,9 @@ router.get('/health', (_req, res) => res.status(httpStatus.OK).send());
 // @access  public
 router.post('/api/users/signup', users.signup);
 
+// @route   POST /api/users/signin
+// @desc    Sign a user in
+// @access  public
+router.post('/api/users/signin', users.signin);
+
 module.exports = router;
