@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const httpStatus = require('http-status-codes');
-const validateSignUpInput = require("../validation/register");
+const validateSignUpInput = require("../validation/signup");
 const userModel = require("../dal/models/users");
 const teamModel = require("../dal/models/teams");
 
