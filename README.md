@@ -20,7 +20,13 @@ npm install
 Then you can start the api with the following
 
 ```bat
-npm run server
+npm start
+```
+
+You can start the api in development mode witch will automatically restart the server when file changes in the directory are detected 
+
+```bat
+npm run dev
 ```
 
 You can now start querying the API en have fun :)
