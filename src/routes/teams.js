@@ -2,6 +2,13 @@ const httpStatus = require('http-status-codes');
 const teamModel = require('../dal/models/teams');
 const validateRegisterInput = require('../validation/teams/register');
 
+exports.all = (_, res) => {
+    teamModel.find()
+        .sort({name: 'asc'})
+        .then((teams) => res.json(teams))
+        .catch((_) => res.status(404).json({message: 'No team found'}));
+};
+
 exports.register = (req, res) => {
     const {errors, isValid} = validateRegisterInput(req.body);
 

@@ -25,6 +25,11 @@ router.post('/api/users/signin', users.signin);
 // @access  private
 router.get('/api/users/current', passport.authenticate('jwt', {session: false}), users.current);
 
+// @route   GET /api/teams
+// @desc    List all teams
+// @access  private
+router.get('/api/teams', passport.authenticate('jwt', {session: false}), teams.all);
+
 // @route   GET /api/teams/register
 // @desc    Register a team
 // @access  private
