@@ -84,3 +84,10 @@ exports.signin = (req, res) => {
         });
     });
 };
+
+exports.current = (req, res) => res.json({
+    id: req.user.id,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    email: req.user.email
+});

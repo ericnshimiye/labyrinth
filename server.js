@@ -4,6 +4,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const routes = require('./src/routes/index');
+const passport = require('passport');
+const passportJwtMiddleWare = require('./src/middleware/passport');
 
 const app = express();
 
@@ -12,6 +14,8 @@ const corsOptions = {
     methods: ['GET', 'POST', 'DELETE']
 };
 
+passportJwtMiddleWare(passport);
+app.use(passport.initialize());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
