@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 const httpStatus = require('http-status-codes');
 const jwt = require('jsonwebtoken');
-const validateSignUpInput = require('../validation/signup');
-const validateSignInInput = require('../validation/signin');
+const validateSignUpInput = require('../validation/users/signup');
+const validateSignInInput = require('../validation/users/signin');
 const userModel = require('../dal/models/users');
 const teamModel = require('../dal/models/teams');
 
