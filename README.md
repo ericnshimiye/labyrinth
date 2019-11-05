@@ -33,4 +33,4 @@ You can now start querying the API en have fun :)
 
 ### Documentation
 
-See the documentation in the [wiki](https://github.com/ericnshimiye/labyrinth/wiki)
+This api uses [Swagger UI](https://swagger.io/tools/swagger-ui/) for documentation. Open http://`<app_host>`:`<app_port>`/api-docs in your browser to view the documentation.
