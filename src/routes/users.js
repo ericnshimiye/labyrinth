@@ -22,7 +22,7 @@ exports.signup = (req, res) => {
                 teamModel.findOne({code: req.body.team})
                     .then((team) => {
                         if (!team) {
-                            errors.team = 'Team not found';
+                            errors.team = 'Invalid team';
                             return res.status(httpStatus.BAD_REQUEST).json(errors);
                         }
 
