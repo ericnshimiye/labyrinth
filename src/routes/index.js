@@ -10,6 +10,7 @@ const passport = require('passport');
    * /health:
    *   get:
    *     description: Health check endpoint
+   *     security: []
    *     tags:
    *      - health check
    *     responses:
@@ -23,6 +24,7 @@ router.get('/health', (_req, res) => res.status(httpStatus.OK).send());
    * /api/users/signup:
    *   post:
    *     description: Sign a user up
+   *     security: []
    *     tags:
    *      - users
    *     requestBody:
@@ -63,6 +65,7 @@ router.post('/api/users/signup', users.signup);
    * /api/users/signin:
    *   post:
    *     description: Sign a user in
+   *     security: []
    *     tags:
    *      - users
    *     requestBody:
