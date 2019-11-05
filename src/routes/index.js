@@ -22,8 +22,6 @@ router.get('/health', (_req, res) => res.status(httpStatus.OK).send());
    * @swagger
    * /api/users/signup:
    *   post:
-   *     security:
-   *      - bearerAuth: []
    *     description: Sign a user up
    *     tags:
    *      - users
@@ -64,8 +62,6 @@ router.post('/api/users/signup', users.signup);
    * @swagger
    * /api/users/signin:
    *   post:
-   *     security:
-   *      - bearerAuth: []
    *     description: Sign a user in
    *     tags:
    *      - users
