@@ -5,34 +5,155 @@ const teams = require('./teams');
 const httpStatus = require('http-status-codes');
 const passport = require('passport');
 
-// @route   GET /health
-// @desc    Health check endpoint
-// @access  public
+/**
+   * @swagger
+   * /health:
+   *   get:
+   *     description: Health check endpoint
+   *     tags:
+   *      - health check
+   *     responses:
+   *       200:
+   *         description: ok
+   */
 router.get('/health', (_req, res) => res.status(httpStatus.OK).send());
 
-// @route   POST /api/users/signup
-// @desc    Register a user
-// @access  public
+/**
+   * @swagger
+   * /api/users/signup:
+   *   post:
+   *     security:
+   *      - bearerAuth: []
+   *     description: Sign a user up
+   *     tags:
+   *      - users
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               firstName:
+   *                 type: string
+   *                 required: true
+   *               lastName:
+   *                 type: string
+   *                 required: true
+   *               email:
+   *                 type: string
+   *                 required: true
+   *               team:
+   *                 type: string
+   *                 required: true
+   *               password:
+   *                 type: string
+   *                 required: true
+   *               confirmPassword:
+   *                 type: string
+   *                 required: true
+   *     responses:
+   *       201:
+   *         description: created
+   *       400:
+   *         description: bad request
+   */
 router.post('/api/users/signup', users.signup);
 
-// @route   POST /api/users/signin
-// @desc    Sign a user in
-// @access  public
+/**
+   * @swagger
+   * /api/users/signin:
+   *   post:
+   *     security:
+   *      - bearerAuth: []
+   *     description: Sign a user in
+   *     tags:
+   *      - users
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 required: true
+   *               password:
+   *                 type: string
+   *                 required: true
+   *     responses:
+   *       200:
+   *         description: token
+   *       400:
+   *         description: bad request
+   *       404:
+   *         description: wrong email or password
+   */
 router.post('/api/users/signin', users.signin);
 
-// @route   GET /api/users/current
-// @desc    Return current user
-// @access  private
+/**
+   * @swagger
+   * /api/users/current:
+   *   get:
+   *     security:
+   *      - bearerAuth: []
+   *     description: Return current user
+   *     tags:
+   *      - users
+   *     responses:
+   *       200:
+   *         description: user
+   *       404:
+   *         description: not found
+   */
 router.get('/api/users/current', passport.authenticate('jwt', {session: false}), users.current);
 
-// @route   GET /api/teams
-// @desc    List all teams
-// @access  private
+/**
+   * @swagger
+   * /api/teams:
+   *   get:
+   *     security:
+   *      - bearerAuth: []
+   *     description: Returns all teams
+   *     tags:
+   *      - teams
+   *     responses:
+   *       200:
+   *         description: teams
+   *       401:
+   *         description: unauthorized
+   */
 router.get('/api/teams', passport.authenticate('jwt', {session: false}), teams.all);
 
-// @route   GET /api/teams/register
-// @desc    Register a team
-// @access  private
+/**
+   * @swagger
+   * /api/teams/register:
+   *   post:
+   *     security:
+   *      - bearerAuth: []
+   *     description: Register a team
+   *     tags:
+   *      - teams
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               code:
+   *                 type: string
+   *                 required: true
+   *               name:
+   *                 type: string
+   *                 required: true
+   *     responses:
+   *       201:
+   *         description: created
+   *       401:
+   *         description: unauthorized
+   */
 router.post('/api/teams/register', passport.authenticate('jwt', {session: false}), teams.register);
 
 module.exports = router;
