@@ -28,7 +28,7 @@ exports.register = (req, res) => {
                 });
 
                 newTeam.save()
-                    .then((team) => res.json(team))
+                    .then((team) => res.status(httpStatus.CREATED).json(team))
                     .catch((err) => console.error(err));
             }
         });

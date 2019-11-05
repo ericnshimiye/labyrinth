@@ -40,7 +40,7 @@ exports.signup = (req, res) => {
                                 newUser.password = hash;
                                 newUser
                                     .save()
-                                    .then((user) => res.json(user))
+                                    .then((user) => res.status(httpStatus.CREATED).json(user))
                                     .catch((err) => console.log(err));
                             });
                         });
