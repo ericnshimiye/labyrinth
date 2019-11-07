@@ -11,6 +11,14 @@ class usersRepository {
     }
 
     /**
+     * @param {number} id
+     * @return {Promise} promise
+     */
+    findById({id}) {
+        return userModel.findById(id);
+    }
+
+    /**
      * @param {userDto} userDto
      * @return {Promise} promise
      */
