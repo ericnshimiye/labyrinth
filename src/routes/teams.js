@@ -1,10 +1,11 @@
 const httpStatus = require('http-status-codes');
 const teamDto = require('../dtos/teamDto');
 const validateRegisterInput = require('../validation/teams/register');
-const teamsRepository = require('../dal/mongodb/teamsRepository');
+const teamsRepositoryFactory = require('../dal/teamsRepositoryFactory');
 
 exports.all = (_, res) => {
-    const teamsRepo = new teamsRepository();
+    const teamRepoFactory = new teamsRepositoryFactory();
+    const teamsRepo = teamRepoFactory.create({strategy: process.env.PERSISTENCE_STRATEGY});
     teamsRepo.findAll()
         .then((teams) => res.json(teams))
         .catch((_) => res.status(404).json({message: 'No team found'}));
@@ -17,7 +18,8 @@ exports.register = (req, res) => {
         return res.status(httpStatus.BAD_REQUEST).json(errors);
     }
 
-    const teamsRepo = new teamsRepository();
+    const teamRepoFactory = new teamsRepositoryFactory();
+    const teamsRepo = teamRepoFactory.create({strategy: process.env.PERSISTENCE_STRATEGY});
     teamsRepo.findByCode({code: req.body.code})
         .then((team) => {
             if (team) {
