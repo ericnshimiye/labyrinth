@@ -25,14 +25,16 @@ app.use(morgan('dev'));
 app.use('/', router);
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-const db = process.env.MONGO_URI;
-mongoose
-    .connect(db, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
-    .then(() => console.log('mongo db connected.'))
-    .catch((err) => console.error(err));
+if (process.env.PERSISTENCE_STRATEGY === 'mongodb') {
+    const db = process.env.MONGO_URI;
+    mongoose
+        .connect(db, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
+        .then(() => console.log('mongo db connected.'))
+        .catch((err) => console.error(err));
+}
 
 const port = process.env.PORT;
 app.listen(port, () => console.log(`server running on port ${port}`));
