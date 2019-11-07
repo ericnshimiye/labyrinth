@@ -22,7 +22,7 @@ class usersRepository {
      * @param {userDto} userDto
      * @return {Promise} promise
      */
-    update(userDto) {
+    insert(userDto) {
         const model = new userModel({
             firstName: userDto.firstName,
             lastName: userDto.lastName,

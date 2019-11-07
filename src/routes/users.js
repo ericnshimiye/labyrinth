@@ -40,7 +40,7 @@ exports.signup = (req, res) => {
                                 if (err) throw err;
                                 newUser.password = hash;
                                 usersRepo
-                                    .update(newUser)
+                                    .insert(newUser)
                                     .then((user) => res.status(httpStatus.CREATED).json(user))
                                     .catch((err) => console.log(err));
                             });
