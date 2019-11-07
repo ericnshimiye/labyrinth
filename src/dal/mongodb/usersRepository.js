@@ -1,6 +1,6 @@
 const userModel = require('./models/users');
 
-/** Class representing a mongo db repository. */
+/** Class representing a mongo db users repository. */
 class usersRepository {
     /**
      * @param {string} email

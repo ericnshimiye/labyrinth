@@ -1,7 +1,7 @@
 const teamModel = require('./models/teams');
 
-/** Class representing a mongo db repository. */
-class usersRepository {
+/** Class representing a mongo db teams repository. */
+class teamsRepository {
     /**
      * @param {string} code
      * @return {Promise} promise
@@ -30,4 +30,4 @@ class usersRepository {
     }
 };
 
-module.exports = usersRepository;
+module.exports = teamsRepository;
