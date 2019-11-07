@@ -2,7 +2,7 @@
 
 ## Labyrinth API
 
-The labyrinth API is a node.js + mongodb app that allow users to try to escape from a maze.
+The labyrinth API is a node.js + mongodb/pouchdb app that allow users to try to escape from a maze.
 Ready to face the challenge ?
 
 ### Configuration
