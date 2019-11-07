@@ -3,8 +3,9 @@ const httpStatus = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const validateSignUpInput = require('../validation/users/signup');
 const validateSignInInput = require('../validation/users/signin');
-const userModel = require('../dal/mongodb/models/users');
 const teamModel = require('../dal/mongodb/models/teams');
+const usersRepository = require('../dal/mongodb/usersRepository');
+const userDto = require('../dtos/userDto');
 
 exports.signup = (req, res) => {
     const {errors, isValid} = validateSignUpInput(req.body);
@@ -12,8 +13,8 @@ exports.signup = (req, res) => {
     if (!isValid) {
         return res.status(httpStatus.BAD_REQUEST).json(errors);
     }
-
-    userModel.findOne({email: req.body.email})
+    const usersRepo = new usersRepository();
+    usersRepo.findByEmail({email: req.body.email})
         .then((user) => {
             if (user) {
                 errors.email = 'User with this email already exists';
@@ -26,7 +27,7 @@ exports.signup = (req, res) => {
                             return res.status(httpStatus.BAD_REQUEST).json(errors);
                         }
 
-                        const newUser = new userModel({
+                        const newUser = new userDto({
                             firstName: req.body.firstName,
                             lastName: req.body.lastName,
                             email: req.body.email,
@@ -34,12 +35,12 @@ exports.signup = (req, res) => {
                             team: team.id
                         });
 
-                        bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.genSalt(10, (_, salt) => {
                             bcrypt.hash(newUser.password, salt, (err, hash) => {
                                 if (err) throw err;
                                 newUser.password = hash;
-                                newUser
-                                    .save()
+                                usersRepo
+                                    .update(newUser)
                                     .then((user) => res.status(httpStatus.CREATED).json(user))
                                     .catch((err) => console.log(err));
                             });
@@ -59,7 +60,8 @@ exports.signin = (req, res) => {
 
     const {email, password} = req.body;
 
-    userModel.findOne({email}).then((user) => {
+    const usersRepo = new usersRepository();
+    usersRepo.findByEmail({email}).then((user) => {
         if (!user) {
             errors.message = 'Wrong email or password';
             return res.status(404).json(errors);
