@@ -3,8 +3,8 @@ const httpStatus = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const validateSignUpInput = require('../validation/users/signup');
 const validateSignInInput = require('../validation/users/signin');
-const userModel = require('../dal/models/users');
-const teamModel = require('../dal/models/teams');
+const userModel = require('../dal/mongodb/models/users');
+const teamModel = require('../dal/mongodb/models/teams');
 
 exports.signup = (req, res) => {
     const {errors, isValid} = validateSignUpInput(req.body);

@@ -1,5 +1,5 @@
 const httpStatus = require('http-status-codes');
-const teamModel = require('../dal/models/teams');
+const teamModel = require('../dal/mongodb/models/teams');
 const validateRegisterInput = require('../validation/teams/register');
 
 exports.all = (_, res) => {
