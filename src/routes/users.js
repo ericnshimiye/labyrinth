@@ -3,8 +3,8 @@ const httpStatus = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const validateSignUpInput = require('../validation/users/signup');
 const validateSignInInput = require('../validation/users/signin');
-const teamModel = require('../dal/mongodb/models/teams');
 const usersRepository = require('../dal/mongodb/usersRepository');
+const teamsRepository = require('../dal/mongodb/teamsRepository');
 const userDto = require('../dtos/userDto');
 
 exports.signup = (req, res) => {
@@ -20,7 +20,8 @@ exports.signup = (req, res) => {
                 errors.email = 'User with this email already exists';
                 return res.status(httpStatus.BAD_REQUEST).json(errors);
             } else {
-                teamModel.findOne({code: req.body.team})
+                const teamRepo = new teamsRepository();
+                teamRepo.findByCode({code: req.body.team})
                     .then((team) => {
                         if (!team) {
                             errors.team = 'Invalid team';
