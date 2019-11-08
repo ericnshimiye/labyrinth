@@ -8,7 +8,7 @@ exports.all = (_, res) => {
     const teamsRepo = teamRepoFactory.create({strategy: process.env.PERSISTENCE_STRATEGY});
     teamsRepo.findAll()
         .then((teams) => res.json(teams))
-        .catch((_) => res.status(404).json({message: 'No team found'}));
+        .catch((_) => res.status(httpStatus.NOT_FOUND).json({message: 'No team found'}));
 };
 
 exports.register = (req, res) => {
@@ -24,7 +24,7 @@ exports.register = (req, res) => {
         .then((team) => {
             if (team) {
                 errors.code = 'Team with this code already exists';
-                return res.status(httpStatus.BAD_REQUEST).json(errors);
+                return res.status(httpStatus.CONFLICT).json(errors);
             } else {
                 const newTeam = new teamDto({
                     code: req.body.code,

@@ -57,6 +57,8 @@ router.get('/health', (_req, res) => res.status(httpStatus.OK).send());
    *         description: created
    *       400:
    *         description: bad request
+   *       409:
+   *         description: conflict
    */
 router.post('/api/users/signup', users.signup);
 
@@ -150,8 +152,12 @@ router.get('/api/teams', passport.authenticate('jwt', {session: false}), teams.a
    *     responses:
    *       201:
    *         description: created
+   *       400:
+   *         description: bad request
    *       401:
    *         description: unauthorized
+   *       409:
+   *         description: conflict
    */
 router.post('/api/teams/register', passport.authenticate('jwt', {session: false}), teams.register);
 

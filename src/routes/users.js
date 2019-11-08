@@ -19,7 +19,7 @@ exports.signup = (req, res) => {
         .then((user) => {
             if (user) {
                 errors.email = 'User with this email already exists';
-                return res.status(httpStatus.BAD_REQUEST).json(errors);
+                return res.status(httpStatus.CONFLICT).json(errors);
             } else {
                 const teamRepoFactory = new teamsRepositoryFactory();
                 const teamRepo = teamRepoFactory.create({strategy: process.env.PERSISTENCE_STRATEGY});
@@ -58,7 +58,7 @@ exports.signin = (req, res) => {
     const {errors, isValid} = validateSignInInput(req.body);
 
     if (!isValid) {
-        return res.status(400).json(errors);
+        return res.status(httpStatus.BAD_REQUEST).json(errors);
     }
 
     const {email, password} = req.body;
@@ -68,7 +68,7 @@ exports.signin = (req, res) => {
     usersRepo.findByEmail({email}).then((user) => {
         if (!user) {
             errors.message = 'Wrong email or password';
-            return res.status(404).json(errors);
+            return res.status(httpStatus.NOT_FOUND).json(errors);
         }
 
         bcrypt.compare(password, user.password).then((isMatch) => {
@@ -85,7 +85,7 @@ exports.signin = (req, res) => {
                 });
             } else {
                 errors.message = 'Wrong email or password';
-                return res.status(404).json(errors);
+                return res.status(httpStatus.NOT_FOUND).json(errors);
             }
         });
     });
