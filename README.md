@@ -34,3 +34,7 @@ You can now start querying the API en have fun :)
 ### Documentation
 
 This api uses [Swagger UI](https://swagger.io/tools/swagger-ui/) for documentation. Open http://`<app_host>`:`<app_port>`/api-docs in your browser to view the documentation.
+
+### Hosted version
+
+An hosted version of the API is available [here](https://labyrinth-api.herokuapp.com/).
