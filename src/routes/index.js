@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const roles = require('../roles');
 const users = require('./users');
 const teams = require('./teams');
 const httpStatus = require('http-status-codes');
 const passport = require('passport');
+const authorizeRoles = require('../middleware/authorizeRoles');
 
 /**
    * @swagger
@@ -125,7 +127,11 @@ router.get('/api/users/current', passport.authenticate('jwt', {session: false}),
    *       401:
    *         description: unauthorized
    */
-router.get('/api/teams', passport.authenticate('jwt', {session: false}), teams.all);
+router.get('/api/teams',
+    passport.authenticate('jwt', {session: false}),
+    authorizeRoles([roles.admin]),
+    teams.all
+);
 
 /**
    * @swagger
