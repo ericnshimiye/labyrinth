@@ -44,7 +44,19 @@ class usersRepository {
      * @return {Promise} promise
      */
     findById({id}) {
-        return this.db.get(id);
+        const findPromise = new Promise((resolve, reject) => {
+            this.db.get(id)
+                .then((user)=>{
+                    if (user) {
+                        resolve({...user, id: user._id});
+                    } else {
+                        resolve(null);
+                    }
+                }).catch((err)=>{
+                    reject(err);
+                });
+        });
+        return findPromise;
     }
 
     /**
@@ -52,7 +64,7 @@ class usersRepository {
      * @return {Promise} promise
      */
     insert(userDto) {
-        const user = {...userDto, _id: uuidv1()};
+        const user = {...userDto, _id: uuidv1(), role: 'admin'};
         return this.db.put(user);
     }
 };
