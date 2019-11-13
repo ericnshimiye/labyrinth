@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const roles = require('../../../roles');
 
 const userSchema = new Schema({
     firstName: {
@@ -25,6 +26,10 @@ const userSchema = new Schema({
     team: {
         type: Schema.Types.ObjectId,
         ref: 'teams'
+    },
+    role: {
+        type: String,
+        default: roles.user
     }
 });
 
