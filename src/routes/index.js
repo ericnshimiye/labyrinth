@@ -23,6 +23,27 @@ router.get('/health', (_req, res) => res.status(httpStatus.OK).send());
 
 /**
    * @swagger
+   * /api/users:
+   *   get:
+   *     security:
+   *      - bearerAuth: []
+   *     description: Returns all users
+   *     tags:
+   *      - users
+   *     responses:
+   *       200:
+   *         description: users
+   *       401:
+   *         description: unauthorized
+   */
+router.get('/api/users',
+    passport.authenticate('jwt', {session: false}),
+    authorizeRoles([roles.admin]),
+    users.all
+);
+
+/**
+   * @swagger
    * /api/users/signup:
    *   post:
    *     description: Sign a user up

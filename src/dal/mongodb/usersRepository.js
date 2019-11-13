@@ -19,6 +19,13 @@ class usersRepository {
     }
 
     /**
+     * @return {Promise} promise
+     */
+    findAll() {
+        return userModel.find().sort({firstName: 'asc', lastName: 'asc'});
+    }
+
+    /**
      * @param {userDto} userDto
      * @return {Promise} promise
      */

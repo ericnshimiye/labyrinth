@@ -48,7 +48,7 @@ class teamsRepository {
                 .then((response) => {
                     if (response && response.total_rows > 0) {
                         const docs = response.rows.map((row) => {
-                            return {...row.doc, id: row._id};
+                            return {...row.doc, id: row.doc._id};
                         }).filter((row) => row.code && row.name);
                         resolve(docs);
                     } else {

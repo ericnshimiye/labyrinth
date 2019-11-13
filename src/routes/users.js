@@ -7,6 +7,14 @@ const teamsRepositoryFactory = require('../dal/teamsRepositoryFactory');
 const usersRepositoryFactory = require('../dal/usersRepositoryFactory');
 const userDto = require('../dtos/userDto');
 
+exports.all = (_, res) => {
+    const usersRepoFactory = new usersRepositoryFactory();
+    const usersRepo = usersRepoFactory.create({strategy: process.env.PERSISTENCE_STRATEGY});
+    usersRepo.findAll()
+        .then((users) => res.json(users))
+        .catch((_) => res.status(httpStatus.NOT_FOUND).json({message: 'No user found'}));
+};
+
 exports.signup = (req, res) => {
     const {errors, isValid} = validateSignUpInput(req.body);
 

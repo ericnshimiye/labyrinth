@@ -60,6 +60,29 @@ class usersRepository {
     }
 
     /**
+     * @return {Promise} promise
+     */
+    findAll() {
+        const findAllPromise = new Promise((resolve, reject) => {
+            const options = {include_docs: true, attachments: false};
+            this.db.allDocs(options)
+                .then((response) => {
+                    if (response && response.total_rows > 0) {
+                        const docs = response.rows.map((row) => {
+                            return {...row.doc, id: row.doc._id};
+                        }).filter((row) => row.email);
+                        resolve(docs);
+                    } else {
+                        resolve([]);
+                    }
+                }).catch((err) => {
+                    reject(err);
+                });
+        });
+        return findAllPromise;
+    }
+
+    /**
      * @param {userDto} userDto
      * @return {Promise} promise
      */
