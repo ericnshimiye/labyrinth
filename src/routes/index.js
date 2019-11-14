@@ -3,6 +3,7 @@ const router = express.Router();
 const roles = require('../roles');
 const users = require('./users');
 const teams = require('./teams');
+const maze = require('./maze');
 const httpStatus = require('http-status-codes');
 const passport = require('passport');
 const authorizeRoles = require('../middleware/authorizeRoles');
@@ -20,6 +21,20 @@ const authorizeRoles = require('../middleware/authorizeRoles');
    *         description: ok
    */
 router.get('/health', (_req, res) => res.status(httpStatus.OK).send());
+
+/**
+   * @swagger
+   * /maze:
+   *   get:
+   *     description: Get maze definition
+   *     security: []
+   *     tags:
+   *      - maze
+   *     responses:
+   *       200:
+   *         description: ok
+   */
+router.get('/maze', maze.one);
 
 /**
    * @swagger
