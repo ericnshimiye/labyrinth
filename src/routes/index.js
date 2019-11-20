@@ -24,17 +24,26 @@ router.get('/health', (_req, res) => res.status(httpStatus.OK).send());
 
 /**
    * @swagger
-   * /maze:
+   * /maze/{level}:
    *   get:
    *     description: Get maze definition
    *     security: []
    *     tags:
    *      - maze
+   *     parameters:
+   *       - in: path
+   *         name: level
+   *         required: true
+   *         schema:
+   *           type: string
+   *           enum: [beginner, advanced]
    *     responses:
    *       200:
    *         description: ok
+   *       400:
+   *         description: bad request
    */
-router.get('/maze', maze.one);
+router.get('/maze/:level', maze.level);
 
 /**
    * @swagger
